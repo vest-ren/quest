@@ -144,10 +144,7 @@ function continueDiscordAuth(discord_access_token) {
     request.send(params)
 
     var newUrl = new URL(document.location.href);
-    newUrl.searchParams.delete("token_type");
-    newUrl.searchParams.delete("scope");
-    newUrl.searchParams.delete("access_token");
-    newUrl.searchParams.delete("expires_in");
+    newUrl.hash = ""; // Clears the fragment part of the URL
     history.replaceState(null, "", newUrl.toString());
 }
 
