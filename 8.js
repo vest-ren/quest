@@ -42,7 +42,6 @@ window.onload = function () {
     }
     if (discord) {
         connectedText('discord')
-
     }
     if (twitter) {
         connectedText('twitter')
@@ -219,6 +218,8 @@ async function disconnectWallet() {
     window.localStorage.removeItem("wallet");
     window.localStorage.removeItem("twitter");
     window.localStorage.removeItem("discord");
+    removeConnectedText('twitter')
+    removeConnectedText('discord')
 }
 
 function enableWalletConnectBtn() {
@@ -267,10 +268,9 @@ function disableDiscordBlock() {
 
 function connectedText(id) {
     $(`#${id}-connect`).css("background-color", "transparent")
-    $(`#${id}-connect`).css("text-color", "#58F5BD")
-    $(`#${id}-connect`).css("border-style", "solid")
     $(`#${id}-connect`).css("border-color", "#58F5BD")
-    $(`#${id}-connect`).css("pointer-events", "pointer");
+    $(`#${id}-connect`).css("border-style", "solid")
+    $(`#${id}-connect`).css("pointer-events", "default");
     $(`#${id}-connect`).off("click");
 
 
@@ -278,6 +278,25 @@ function connectedText(id) {
     $(`#${id}-text`).css("color", "#58F5BD")
 }
 
+function removeConnectedText(id) {
+    var color;
+    if (id === 'discord') {
+        color = '#7289da'
+        $(`#${id}-connect`).on("click", () => { connectDiscord() });
+    }
+    if (id == 'twitter') {
+        color = '#1da1f2'
+        $(`#${id}-connect`).on("click", () => { initTwitterAuth() });
+    }
+    $(`#${id}-connect`).css("background-color", color)
+    $(`#${id}-connect`).css("border", "none")
+    $(`#${id}-connect`).css("pointer-events", "pointer");
+
+
+    $(`#${id}-text`).text(`Connect ${id}`)
+    $(`#${id}-text`).css("color", "white")
+
+}
 
 
 //utility functions
