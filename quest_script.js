@@ -33,18 +33,19 @@ window.onload = function () {
     var twitter_oauth_token = curUrl.searchParams.get("oauth_token")
     var discord_access_token = curlUrl.searchParams.get("access_token")
     if (twitter_oauth_verifier) {
-        //say twitter connected
+        connectedText('twitter')
         continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier)
     }
     if (discord_access_token) {
-        //say discord connected
+        connectedText('discord')
         continueDiscordAuth(discord_access_token)
     }
     if (discord) {
-        //say discord connected
+        connectedText('discord')
+
     }
     if (twitter) {
-        //say twitter connected
+        connectedText('twitter')
     }
     if (wallet) {
         //show disconnect button
@@ -262,6 +263,16 @@ function disableDiscordBlock() {
     $('#discord-block').css("opacity", "0.5");
     $('#discord-block').css("cursor", "not-allowed");
     $('#discord-block').css("pointer-events", "none");
+}
+
+function connectedText(id) {
+    $(`#${id}-btn`).css("outline",)
+    $(`#${id}-btn`).css("background", "none")
+    $(`#${id}-btn`).css("text-color", "green")
+    $(`#${id}-btn`).css("border-style", "solid")
+    $(`#${id}-btn`).css("border-color", "green")
+    $(`#${id}-text`).text(`${id} Connected`)
+    $(`#${id}-text`).css("text-color", "green")
 }
 
 
