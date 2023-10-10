@@ -27,26 +27,32 @@ window.onload = function () {
     var twitter = window.localStorage.getItem('twitter');
     var discord = window.localStorage.getItem('discord');
 
-    //check if came back from OAuth verification
     var curUrl = new URL(document.location.href);
+
+    // Handling Twitter API
+    var twitter_oauth_token = curUrl.searchParams.get("oauth_token");
     var twitter_oauth_verifier = curUrl.searchParams.get("oauth_verifier");
-    var twitter_oauth_token = curUrl.searchParams.get("oauth_token")
-    var discord_access_token = curUrl.searchParams.get("access_token")
-    if (twitter_oauth_verifier) {
-        connectedText('twitter')
-        continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier)
+    if (twitter_oauth_verifier && twitter_oauth_token) {
+        connectedText('twitter');
+        continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier);
     }
+
+    // Handling Discord API
+    var fragmentParams = new URLSearchParams(curUrl.hash.substr(1));
+    var discord_access_token = fragmentParams.get("access_token");
     if (discord_access_token) {
-        console.log("found access token")
-        connectedText('discord')
-        continueDiscordAuth(discord_access_token)
+        console.log("found access token");
+        connectedText('discord');
+        continueDiscordAuth(discord_access_token);
     }
     if (discord) {
-        connectedText('discord')
+        connectedText('discord');
     }
+
     if (twitter) {
-        connectedText('twitter')
+        connectedText('twitter');
     }
+
     if (wallet) {
         //show disconnect button
         disableWalletConnectBtn(wallet.replace(wallet.substring(4, wallet.length - 4), "..."));
@@ -120,6 +126,7 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
 }
 
 function continueDiscordAuth(discord_access_token) {
+    console.log("Continuing discord auth")
     //Save in Local Storage
     saveInLocalStorage('discord', 'true')
 
@@ -210,13 +217,6 @@ async function disconnectWallet() {
     console.log('Disconnecting')
     enableWalletConnectBtn()
 
-    if (provider.close) {
-        await provider.close();
-        await web3Modal.clearCachedProvider();
-        provider = null;
-    }
-
-    selectedAccount = null;
     window.localStorage.removeItem("wallet");
     window.localStorage.removeItem("twitter");
     window.localStorage.removeItem("discord");
