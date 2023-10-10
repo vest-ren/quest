@@ -21,7 +21,7 @@ $("#discord-connect").on("click", () => { connectDiscord() });
 
 
 window.onload = function () {
-    console.log("testing 9")
+    console.log("testing 20")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -131,6 +131,7 @@ function continueDiscordAuth(discord_access_token) {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
             console.log("Succesfully uploaded discord access token")
+            //post discord auth token to db
         }
     }
     request.send(params)
