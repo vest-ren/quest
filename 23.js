@@ -166,8 +166,8 @@ async function connectWallet() {
     saveInLocalStorage('wallet', selectedAccount)
     //contact server to get twitter / discord information
     let request = new XMLHttpRequest()
-    let params = JSON.stringify({ 'user_wallet_address': selectedAccount })
-    request.open('GET', `${xano_user_url}check_wallet`, true)
+    let params = { 'user_wallet_address': selectedAccount }
+    request.open('GET', xano_user_url + formatParams(params), true)
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
@@ -288,4 +288,13 @@ function removeConnectedText(id) {
 //save the generated token in the local storage as a cookie
 function saveInLocalStorage(name, authToken) {
     window.localStorage.setItem(name, authToken);
+}
+
+function formatParams(params) {
+    return "?" + Object
+        .keys(params)
+        .map(function (key) {
+            return key + "=" + encodeURIComponent(params[key])
+        })
+        .join("&")
 }
