@@ -15,9 +15,9 @@ let web3Modal, provider, selectedAccount;
 let accounts = [];
 
 //init button handlers
-$("#wallet-connect").on("click", () => { connectWallet() });
-$("#twitter-connect").on("click", () => { initTwitterAuth() });
-$("#discord-connect").on("click", () => { connectDiscord() });
+$("#wallet-connect").on("click", () => { connectWallet });
+$("#twitter-connect").on("click", () => { initTwitterAuth });
+$("#discord-connect").on("click", () => { connectDiscord });
 
 
 window.onload = function () {
@@ -282,13 +282,13 @@ function connectedText(id) {
 
 function removeConnectedText(id) {
     var color;
-    if (id === 'discord') {
+    if (id == 'discord') {
         color = '#7289da'
-        $(`#${id}-connect`).on("click", () => { connectDiscord() });
+        $(`#${id}-connect`).on("click", () => { connectDiscord });
     }
     if (id == 'twitter') {
         color = '#1da1f2'
-        $(`#${id}-connect`).on("click", () => { initTwitterAuth() });
+        $(`#${id}-connect`).on("click", () => { initTwitterAuth });
     }
     $(`#${id}-connect`).css("background-color", color)
     $(`#${id}-connect`).css("border", "none")
