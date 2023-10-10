@@ -94,8 +94,11 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
+            console.log('Running: Twitter Auth Token ' + data.authToken)
             saveInLocalStorage('twitter', 'true')
-            //submit a post request
+            let secondRequest = new XMLHttpRequest();
+            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "twitter": data.authToken }));
+            secondRequest.send();
         }
     }
     request.send()
@@ -113,17 +116,8 @@ function continueDiscordAuth(discord_access_token) {
     //Save in Local Storage
     saveInLocalStorage('discord', 'true')
 
-    //upload access token to DB
     let request = new XMLHttpRequest()
-    let params = JSON.stringify({ 'discord': discord_access_token })
-    request.open('POST', `${xano_user_url}`, true)
-    request.onload = function () {
-        let data = JSON.parse(this.response)
-        if (request.status >= 200 && request.status < 400) {
-            console.log("Succesfully uploaded discord access token")
-            //post discord auth token to db
-        }
-    }
+    request.open('PATCH', xano_user_url + '/discord' + formatParams({ "discord": data.authToken }));
     request.send(params)
 
     var newUrl = new URL(document.location.href);
@@ -168,6 +162,14 @@ async function connectWallet() {
     checkIfUserExists(selectedAccount).then(result => {
         if (result) {
             console.log('User exists:', result);
+            if (result.twitter) {
+                saveInLocalStorage('twitter', 'true')
+                connectedText('twitter')
+            }
+            if (result.discord) {
+                saveInLocalStorage('discord', 'true')
+                connectedText('discord')
+            }
         } else {
             console.log('User does not exist.');
             createNewAccount(selectedAccount);
@@ -296,6 +298,10 @@ function createNewAccount(wallet_address) {
     request.send();
 }
 
+function submitTwitterToken(token) {
+
+}
+
 function checkIfUserExists(wallet_address) {
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
@@ -305,7 +311,6 @@ function checkIfUserExists(wallet_address) {
         request.onload = function () {
             if (request.status >= 200 && request.status < 400) {
                 let data = JSON.parse(this.response);
-                // ... (the rest of your logic) ...
                 resolve(data);  // If request is successful, resolve the promise with data.
             } else {
                 resolve(false);  // If request has error status, resolve the promise with false.
