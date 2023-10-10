@@ -127,7 +127,7 @@ function continueDiscordAuth(discord_access_token) {
     let request = new XMLHttpRequest()
     let params = JSON.stringifiy({ 'discord': discord_access_token })
     request.open('POST', `${xano_user_url}`, true)
-    request.onload() = function () {
+    request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
             console.log("Succesfully uploaded discord access token")
@@ -239,7 +239,7 @@ function disableWalletConnectBtn(cutAcc) {
     $("#wallet-connect").on('mouseout', () => {
         $("#connect-text").text(cutAcc);
     });
-    $("#wallet-connect").on("click", disconnectWallet);
+    $("#wallet-connect").on("click", disconnectWallet());
     $("#wallet-subtitle").text("You're connected! You can now earn points.")
 }
 
