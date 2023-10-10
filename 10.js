@@ -37,6 +37,7 @@ window.onload = function () {
         continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier)
     }
     if (discord_access_token) {
+        console.log("found access token")
         connectedText('discord')
         continueDiscordAuth(discord_access_token)
     }
@@ -58,11 +59,11 @@ window.onload = function () {
             if (request.status >= 200 && request.status < 400) {
                 //save information in local storage
                 if (data.twitter) {
-                    saveInLocalStorage('twitter', true)
+                    saveInLocalStorage('twitter', 'true')
                     //say twitter connected
                 }
                 if (data.discord) {
-                    saveInLocalStorage('discord', true)
+                    saveInLocalStorage('discord', 'true')
                     //say discord connected
                 }
             }
@@ -105,7 +106,7 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
-            saveInLocalStorage('twitter', data.authToken)
+            saveInLocalStorage('twitter', 'true')
         }
     }
     request.send()
@@ -120,7 +121,7 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
 
 function continueDiscordAuth(discord_access_token) {
     //Save in Local Storage
-    saveInLocalStorage('discord', true)
+    saveInLocalStorage('discord', 'true')
 
     //upload access token to DB
     let request = new XMLHttpRequest()
