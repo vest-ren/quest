@@ -21,7 +21,7 @@ $("#discord-connect").on("click", () => { connectDiscord });
 
 
 window.onload = function () {
-    console.log("testing 20")
+    console.log("testing 21")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
