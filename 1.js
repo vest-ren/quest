@@ -266,11 +266,11 @@ function disableDiscordBlock() {
 }
 
 function connectedText(id) {
-    $(`#${id}-btn`).css("outline",)
-    $(`#${id}-btn`).css("background", "none")
-    $(`#${id}-btn`).css("text-color", "green")
-    $(`#${id}-btn`).css("border-style", "solid")
-    $(`#${id}-btn`).css("border-color", "green")
+    $(`#${id}-connect`).css("outline",)
+    $(`#${id}-connect`).css("background-color", "none")
+    $(`#${id}-connect`).css("text-color", "green")
+    $(`#${id}-connect`).css("border-style", "solid")
+    $(`#${id}-connect`).css("border-color", "green")
     $(`#${id}-text`).text(`${id} Connected`)
     $(`#${id}-text`).css("text-color", "green")
 }
