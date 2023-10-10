@@ -21,7 +21,7 @@ $("#discord-connect").on("click", () => { connectDiscord() });
 
 
 window.onload = function () {
-    console.log("testing 2")
+    console.log("testing 1")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -266,7 +266,6 @@ function disableDiscordBlock() {
 }
 
 function connectedText(id) {
-    $(`#${id}-connect`).css("outline",)
     $(`#${id}-connect`).css("background-color", "none")
     $(`#${id}-connect`).css("text-color", "green")
     $(`#${id}-connect`).css("border-style", "solid")
