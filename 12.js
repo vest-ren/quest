@@ -239,7 +239,7 @@ function disableWalletConnectBtn(cutAcc) {
     $("#wallet-connect").on('mouseout', () => {
         $("#connect-text").text(cutAcc);
     });
-    $("#wallet-connect").on("click", disconnectWallet());
+    $("#wallet-connect").on("click", disconnectWallet);
     $("#wallet-subtitle").text("You're connected! You can now earn points.")
 }
 
