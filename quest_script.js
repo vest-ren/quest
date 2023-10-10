@@ -21,7 +21,7 @@ $("#discord-connect").on("click", () => { connectDiscord() });
 
 
 window.onload = function () {
-    console.log("it test")
+    console.log("testing 2")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -31,7 +31,7 @@ window.onload = function () {
     var curUrl = new URL(document.location.href);
     var twitter_oauth_verifier = curUrl.searchParams.get("oauth_verifier");
     var twitter_oauth_token = curUrl.searchParams.get("oauth_token")
-    var discord_access_token = curlUrl.searchParams.get("access_token")
+    var discord_access_token = curUrl.searchParams.get("access_token")
     if (twitter_oauth_verifier) {
         connectedText('twitter')
         continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier)
