@@ -56,24 +56,6 @@ window.onload = function () {
     if (wallet) {
         //show disconnect button
         disableWalletConnectBtn(wallet.replace(wallet.substring(4, wallet.length - 4), "..."));
-
-        //contact server to get twitter / discord information
-        let request = new XMLHttpRequest()
-        request.open('GET', `${xano_user_url}${wallet}`, true)
-        request.onload = function () {
-            let data = JSON.parse(this.response)
-            if (request.status >= 200 && request.status < 400) {
-                //save information in local storage
-                if (data.twitter) {
-                    saveInLocalStorage('twitter', 'true')
-                    //say twitter connected
-                }
-                if (data.discord) {
-                    saveInLocalStorage('discord', 'true')
-                    //say discord connected
-                }
-            }
-        }
     } else {
         disableTwitterBlock()
         disableDiscordBlock()
@@ -113,6 +95,7 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
             saveInLocalStorage('twitter', 'true')
+            //submit a post request
         }
     }
     request.send()
@@ -165,31 +148,6 @@ function initWalletAuth() {
     });
 }
 
-async function fetchAccountData() {
-    const web3 = new Web3(provider);
-    const chainId = await web3.eth.getChainId();
-    accounts = await web3.eth.getAccounts();
-    selectedAccount = accounts[0];
-    var cutAcc = selectedAccount.replace(selectedAccount.substring(4, selectedAccount.length - 4), "...");
-    saveInLocalStorage('wallet', selectedAccount)
-    fetch("https://hook.us1.make.com/oe9e52lcgew8fs81kqslb87iudqjvcrq", {
-        method: "POST",
-        body: JSON.stringify({
-            walletaddress: selectedAccount,
-        }),
-        headers: {
-            "Content-type": "application/json; charset=UTF-8"
-        }
-    });
-    enableTwitterBlock()
-
-    disableWalletConnectBtn(cutAcc);
-}
-
-async function refreshAccountData() {
-    await fetchAccountData(provider);
-}
-
 async function connectWallet() {
     console.log("Opening a dialog", web3Modal);
     try {
@@ -198,16 +156,44 @@ async function connectWallet() {
         console.log("Could not get a wallet connection", e);
         return;
     }
-    provider.on("accountsChanged", (accounts) => {
-        fetchAccountData();
-    });
-    provider.on("chainChanged", (chainId) => {
-        fetchAccountData();
-    });
-    provider.on("networkChanged", (networkId) => {
-        fetchAccountData();
-    });
-    await refreshAccountData();
+
+    const web3 = new Web3(provider);
+    const chainId = await web3.eth.getChainId();
+    accounts = await web3.eth.getAccounts();
+    selectedAccount = accounts[0];
+    var cutAcc = selectedAccount.replace(selectedAccount.substring(4, selectedAccount.length - 4), "...");
+
+    saveInLocalStorage('wallet', selectedAccount)
+    //contact server to get twitter / discord information
+    let request = new XMLHttpRequest()
+    let params = JSON.stringify({ 'user_wallet_address': wallet })
+    request.open('GET', `${xano_user_url}check_wallet`, true)
+    request.onload = function () {
+        let data = JSON.parse(this.response)
+        if (request.status >= 200 && request.status < 400) {
+            console.log("found something")
+            console.log(data)
+            //save information in local storage
+            if (data.twitter) {
+                saveInLocalStorage('twitter', 'true')
+                connectedText('twitter')
+            }
+            if (data.discord) {
+                saveInLocalStorage('discord', 'true')
+                connectedText('discord')
+            }
+        } else {
+            console.log("Didnt find something")
+        }
+    }
+    request.send(params)
+
+    // let request = new XMLHttpRequest();
+    // let params = JSON.stringify({ 'wallet_address': selectedAccount })
+    // request.open('POST', 'https://x8ki-letl-twmt.n7.xano.io/api:Mtsyi-X8/user', true)
+    // request.send(params)
+    enableTwitterBlock()
+    disableWalletConnectBtn(cutAcc);
 }
 
 async function disconnectWallet() {
@@ -273,7 +259,7 @@ function connectedText(id) {
     $(`#${id}-connect`).off("click");
 
 
-    $(`#${id}-text`).text(`${id} Connected`)
+    $(`#${id}-text`).text(`${id.toUpperCase()} Connected`)
     $(`#${id}-text`).css("color", "#58F5BD")
 }
 
@@ -292,7 +278,7 @@ function removeConnectedText(id) {
     $(`#${id}-connect`).css("pointer-events", "pointer");
 
 
-    $(`#${id}-text`).text(`Connect ${id}`)
+    $(`#${id}-text`).text(`Connect ${id.toUpperCase()}`)
     $(`#${id}-text`).css("color", "white")
 
 }
