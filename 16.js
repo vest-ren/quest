@@ -15,9 +15,9 @@ let web3Modal, provider, selectedAccount;
 let accounts = [];
 
 //init button handlers
-$("#wallet-connect").on("click", () => { connectWallet });
-$("#twitter-connect").on("click", () => { initTwitterAuth });
-$("#discord-connect").on("click", () => { connectDiscord });
+$("#wallet-connect").on("click", () => { connectWallet() });
+$("#twitter-connect").on("click", () => { initTwitterAuth() });
+$("#discord-connect").on("click", () => { connectDiscord() });
 
 
 window.onload = function () {
@@ -227,7 +227,7 @@ async function disconnectWallet() {
 function enableWalletConnectBtn() {
     $("#wallet-connect").off();
     $("#connect-text").text("Connect Wallet");
-    $("#wallet-connect").on("click", connectWallet);
+    $("#wallet-connect").on("click", connectWallet());
     $("#wallet-subtitle").text("Connect your crypto wallet to register for Waitlist and earn points!")
 }
 
@@ -240,7 +240,7 @@ function disableWalletConnectBtn(cutAcc) {
     $("#wallet-connect").on('mouseout', () => {
         $("#connect-text").text(cutAcc);
     });
-    $("#wallet-connect").on("click", disconnectWallet);
+    $("#wallet-connect").on("click", disconnectWallet());
     $("#wallet-subtitle").text("You're connected! You can now earn points.")
 }
 
@@ -284,11 +284,11 @@ function removeConnectedText(id) {
     var color;
     if (id == 'discord') {
         color = '#7289da'
-        $(`#${id}-connect`).on("click", () => { connectDiscord });
+        $(`#${id}-connect`).on("click", connectDiscord());
     }
     if (id == 'twitter') {
         color = '#1da1f2'
-        $(`#${id}-connect`).on("click", () => { initTwitterAuth });
+        $(`#${id}-connect`).on("click", initTwitterAuth());
     }
     $(`#${id}-connect`).css("background-color", color)
     $(`#${id}-connect`).css("border", "none")
