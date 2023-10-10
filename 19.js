@@ -132,7 +132,7 @@ function continueDiscordAuth(discord_access_token) {
 
     //upload access token to DB
     let request = new XMLHttpRequest()
-    let params = JSON.stringifiy({ 'discord': discord_access_token })
+    let params = JSON.stringify({ 'discord': discord_access_token })
     request.open('POST', `${xano_user_url}`, true)
     request.onload = function () {
         let data = JSON.parse(this.response)
