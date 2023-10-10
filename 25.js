@@ -3,7 +3,7 @@ var redirect_uri = "https://vest-v2.webflow.io/quest"
 var xano_twitter_oauth_init_url = "https://x8ki-letl-twmt.n7.xano.io/api:3LEBk3xS/oauth/twitter/request_token"
 var xano_twitter_oauth_continue_url = "https://x8ki-letl-twmt.n7.xano.io/api:3LEBk3xS/oauth/twitter/access_token"
 var discord_url = "https://discord.com/oauth2/authorize?response_type=token&client_id= 1160981538788343988&scope=identify"
-var xano_user_url = "https://x8ki-letl-twmt.n7.xano.io/api:Mtsyi-X8/user/"
+var xano_user_url = "https://x8ki-letl-twmt.n7.xano.io/api:Mtsyi-X8/user"
 var formHeaders = [];
 var formResponse = [];
 const Web3Modal = window.Web3Modal.default;
@@ -165,28 +165,16 @@ async function connectWallet() {
 
     saveInLocalStorage('wallet', selectedAccount)
     //contact server to get twitter / discord information
-    let request = new XMLHttpRequest()
-    let params = { 'user_wallet_address': selectedAccount }
-    request.open('GET', xano_user_url + 'check_wallet' + formatParams(params), true)
-    request.onload = function () {
-        let data = JSON.parse(this.response)
-        if (request.status >= 200 && request.status < 400) {
-            console.log("found something")
-            console.log(data)
-            //save information in local storage
-            if (data.twitter) {
-                saveInLocalStorage('twitter', 'true')
-                connectedText('twitter')
-            }
-            if (data.discord) {
-                saveInLocalStorage('discord', 'true')
-                connectedText('discord')
-            }
+    checkIfUserExists(selectedAccount).then(result => {
+        if (result) {
+            console.log('User exists:', result);
         } else {
-            console.log("Didnt find something")
+            console.log('User does not exist.');
+            createNewAccount(selectedAccount);
         }
-    }
-    request.send(params)
+    }).catch(error => {
+        console.error('Error checking if user exists:', error);
+    });
 
     // let request = new XMLHttpRequest();
     // let params = JSON.stringify({ 'wallet_address': selectedAccount })
@@ -297,4 +285,37 @@ function formatParams(params) {
             return key + "=" + encodeURIComponent(params[key])
         })
         .join("&")
+}
+
+function createNewAccount(wallet_address) {
+    console.log("Creating new account")
+    let request = new XMLHttpRequest();
+    let params = { 'user_wallet_address': wallet_address };
+    request.open('POST', xano_user_url + formatParams(params), true);
+    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    request.send();
+}
+
+function checkIfUserExists(wallet_address) {
+    return new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        let params = { 'user_wallet_address': wallet_address };
+        request.open('GET', xano_user_url + '/check_wallet' + formatParams(params), true);
+
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 400) {
+                let data = JSON.parse(this.response);
+                // ... (the rest of your logic) ...
+                resolve(data);  // If request is successful, resolve the promise with data.
+            } else {
+                resolve(false);  // If request has error status, resolve the promise with false.
+            }
+        };
+
+        request.onerror = function () {
+            reject(new Error("Network error"));  // If there's a network error, reject the promise.
+        };
+
+        request.send();
+    });
 }
