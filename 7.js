@@ -21,7 +21,7 @@ $("#discord-connect").on("click", () => { connectDiscord() });
 
 
 window.onload = function () {
-    console.log("testing 1")
+    console.log("testing 7")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -267,13 +267,15 @@ function disableDiscordBlock() {
 
 function connectedText(id) {
     $(`#${id}-connect`).css("background-color", "transparent")
-    $(`#${id}-connect`).css("text-color", "green")
+    $(`#${id}-connect`).css("text-color", "#58F5BD")
     $(`#${id}-connect`).css("border-style", "solid")
-    $(`#${id}-connect`).css("border-color", "green")
-    $(`#${id}-connect`).css("pointer-events", "default");
+    $(`#${id}-connect`).css("border-color", "#58F5BD")
+    $(`#${id}-connect`).css("pointer-events", "pointer");
+    $(`#${id}-connect`).off("click");
+
 
     $(`#${id}-text`).text(`${id} Connected`)
-    $(`#${id}-text`).css("text-color", "green")
+    $(`#${id}-text`).css("color", "#58F5BD")
 }
 
 
