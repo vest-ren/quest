@@ -167,7 +167,7 @@ async function connectWallet() {
     //contact server to get twitter / discord information
     let request = new XMLHttpRequest()
     let params = { 'user_wallet_address': selectedAccount }
-    request.open('GET', xano_user_url + formatParams(params), true)
+    request.open('GET', xano_user_url + 'check_wallet' + formatParams(params), true)
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
