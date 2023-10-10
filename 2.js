@@ -54,7 +54,7 @@ window.onload = function () {
         //contact server to get twitter / discord information
         let request = new XMLHttpRequest()
         request.open('GET', `${xano_user_url}${wallet}`, true)
-        request.onload() = function () {
+        request.onload = function () {
             let data = JSON.parse(this.response)
             if (request.status >= 200 && request.status < 400) {
                 //save information in local storage
