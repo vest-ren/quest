@@ -21,7 +21,7 @@ $("#discord-connect").on("click", connectDiscord);
 
 
 window.onload = function () {
-    console.log("testing 21")
+    console.log("testing 22")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -166,7 +166,7 @@ async function connectWallet() {
     saveInLocalStorage('wallet', selectedAccount)
     //contact server to get twitter / discord information
     let request = new XMLHttpRequest()
-    let params = JSON.stringify({ 'user_wallet_address': wallet })
+    let params = JSON.stringify({ 'user_wallet_address': selectedAccount })
     request.open('GET', `${xano_user_url}check_wallet`, true)
     request.onload = function () {
         let data = JSON.parse(this.response)
