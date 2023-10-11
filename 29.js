@@ -87,7 +87,7 @@ function initTwitterAuth() {
     // newUrl.searchParams.delete("scope");
     // history.replaceState(null, "", newUrl.toString());
 }
-function continueTwitterAuth(oauth_token, oauth_verifier) {
+function continueTwitterAuth(oauth_token, oauth_verifier, wallet_address) {
     let request = new XMLHttpRequest();
     let link = xano_twitter_oauth_continue_url + '?oauth_token=' + oauth_token + '&oauth_verifier=' + oauth_verifier
     request.open('GET', link, true)
@@ -97,7 +97,7 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
             console.log('Running: Twitter Auth Token ' + data.authToken)
             saveInLocalStorage('twitter', 'true')
             let secondRequest = new XMLHttpRequest();
-            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "twitter": data.authToken }));
+            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "user_wallet_address": wallet_address, "twitter": data.authToken }));
             secondRequest.send();
         }
     }
@@ -111,13 +111,13 @@ function continueTwitterAuth(oauth_token, oauth_verifier) {
     enableDiscordBlock()
 }
 
-function continueDiscordAuth(discord_access_token) {
+function continueDiscordAuth(discord_access_token, wallet_address) {
     console.log("Continuing discord auth")
     //Save in Local Storage
     saveInLocalStorage('discord', 'true')
 
     let request = new XMLHttpRequest()
-    request.open('PATCH', xano_user_url + '/discord' + formatParams({ "discord": data.authToken }));
+    request.open('PATCH', xano_user_url + '/discord' + formatParams({ "user_wallet_address": wallet_address, "discord": discord_access_token }));
     request.send(params)
 
     var newUrl = new URL(document.location.href);
