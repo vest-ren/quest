@@ -21,7 +21,7 @@ $("#discord-connect").on("click", connectDiscord);
 
 
 window.onload = function () {
-    console.log("testing 22")
+    console.log("testing 35")
     initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
@@ -93,10 +93,11 @@ function continueTwitterAuth(oauth_token, oauth_verifier, wallet_address) {
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
-            console.log('Running: Twitter Auth Token ' + data.authToken)
+            console.log('Running: Twitter ' + data)
+            console.log('Running: Twitter account ' + data.parsedResult.screen_name)
             saveInLocalStorage('twitter', 'true')
             let secondRequest = new XMLHttpRequest();
-            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "user_wallet_address": wallet_address, "twitter": data.authToken }));
+            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "user_wallet_address": wallet_address, "twitter": data.parsedResult.screen_name }));
             secondRequest.send();
         }
     }
