@@ -93,11 +93,11 @@ function continueTwitterAuth(oauth_token, oauth_verifier, wallet_address) {
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
-            console.log('Running: Twitter ' + data)
-            console.log('Running: Twitter account ' + data.parsedResult.screen_name)
+            console.log(data)
+            console.log('Running: Twitter account ' + data.parsed_result.screen_name)
             saveInLocalStorage('twitter', 'true')
             let secondRequest = new XMLHttpRequest();
-            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "user_wallet_address": wallet_address, "twitter": data.parsedResult.screen_name }));
+            secondRequest.open('PATCH', xano_user_url + '/twitter' + formatParams({ "user_wallet_address": wallet_address, "twitter": data.parsed_result.screen_name }));
             secondRequest.send();
         }
     }
