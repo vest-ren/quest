@@ -34,7 +34,7 @@ window.onload = function () {
     var twitter_oauth_verifier = curUrl.searchParams.get("oauth_verifier");
     if (twitter_oauth_verifier && twitter_oauth_token) {
         connectedText('twitter');
-        continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier);
+        continueTwitterAuth(twitter_oauth_token, twitter_oauth_verifier, wallet);
     }
 
     // Handling Discord API
@@ -43,7 +43,7 @@ window.onload = function () {
     if (discord_access_token) {
         console.log("found access token");
         connectedText('discord');
-        continueDiscordAuth(discord_access_token);
+        continueDiscordAuth(discord_access_token, wallet);
     }
     if (discord) {
         connectedText('discord');
