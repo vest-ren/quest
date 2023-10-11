@@ -57,8 +57,8 @@ window.onload = function () {
         //show disconnect button
         disableWalletConnectBtn(wallet.replace(wallet.substring(4, wallet.length - 4), "..."));
     } else {
-        disableTwitterBlock()
-        disableDiscordBlock()
+        // disableTwitterBlock()
+        // disableDiscordBlock()
     }
 }
 
@@ -80,7 +80,7 @@ function initTwitterAuth() {
             console.log('wrong ' + request)
         }
     }
-    request.send(params)
+    request.send()
 
     // var newUrl = new URL(document.location.href);
     // newUrl.searchParams.delete("code");
