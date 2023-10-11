@@ -89,8 +89,7 @@ function initTwitterAuth() {
 }
 function continueTwitterAuth(oauth_token, oauth_verifier, wallet_address) {
     let request = new XMLHttpRequest();
-    let link = xano_twitter_oauth_continue_url + '?oauth_token=' + oauth_token + '&oauth_verifier=' + oauth_verifier
-    request.open('GET', link, true)
+    request.open('GET', xano_twitter_oauth_continue_url + formatParams({ "oauth_token": oauth_token, "oauth_verifier": oauth_verifier, "user_wallet_address": wallet_address }), true)
     request.onload = function () {
         let data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
