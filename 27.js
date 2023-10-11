@@ -1,9 +1,9 @@
 var login_path = "/quest"
 var redirect_uri = "https://vest-v2.webflow.io/quest"
-var xano_twitter_oauth_init_url = "https://x8ki-letl-twmt.n7.xano.io/api:3LEBk3xS/oauth/twitter/request_token"
-var xano_twitter_oauth_continue_url = "https://x8ki-letl-twmt.n7.xano.io/api:3LEBk3xS/oauth/twitter/access_token"
+var xano_twitter_oauth_init_url = "https://xfrp-jttq-abkf.n7c.xano.io/api:3LEBk3xS/oauth/twitter/request_token"
+var xano_twitter_oauth_continue_url = "https://xfrp-jttq-abkf.n7c.xano.io/api:3LEBk3xS/oauth/twitter/access_token"
 var discord_url = "https://discord.com/oauth2/authorize?response_type=token&client_id= 1160981538788343988&scope=identify"
-var xano_user_url = "https://x8ki-letl-twmt.n7.xano.io/api:Mtsyi-X8/user"
+var xano_user_url = "https://xfrp-jttq-abkf.n7c.xano.io/api:Mtsyi-X8/user"
 var formHeaders = [];
 var formResponse = [];
 const Web3Modal = window.Web3Modal.default;
