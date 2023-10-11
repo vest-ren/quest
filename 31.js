@@ -118,7 +118,7 @@ function continueDiscordAuth(discord_access_token, wallet_address) {
 
     let request = new XMLHttpRequest()
     request.open('PATCH', xano_user_url + '/discord' + formatParams({ "user_wallet_address": wallet_address, "discord": discord_access_token }));
-    request.send(params)
+    request.send()
 
     var newUrl = new URL(document.location.href);
     newUrl.hash = ""; // Clears the fragment part of the URL
