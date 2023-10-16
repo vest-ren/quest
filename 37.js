@@ -1,3 +1,31 @@
+import { WalletConnectModalAuth } from "https://unpkg.com/@walletconnect/modal-auth-html@2.6.1";
+
+// 2. Create modal client, add your project id
+const modal = new WalletConnectModalAuth({
+    projectId: "aeec2be42d1928ed74aabf28f68fd832",
+    chains: ["eip155:1"],
+    metadata: {
+        name: "My Dapp",
+        description: "My Dapp description",
+        url: "https://vest-v2.webflow.io",
+        icons: ["https://uploads-ssl.webflow.com/6519e93eb2d820de93f496e7/651aea779a658b656c6823f2_image%20(10).png"],
+    },
+});
+
+// 3. Sign In
+async function onSignIn() {
+    try {
+        const data = await modal.signIn({
+            statement: "Sign In to My Dapp",
+        });
+        console.info(data);
+    } catch (err) {
+        console.error(err);
+    } finally {
+        connectButton.disabled = false;
+    }
+}
+
 var login_path = "/quest"
 var redirect_uri = "https://vest-v2.webflow.io/quest"
 var xano_twitter_oauth_init_url = "https://xfrp-jttq-abkf.n7c.xano.io/api:NUVFj-l-/oauth/twitter/request_token"
@@ -15,14 +43,14 @@ let web3Modal, provider, selectedAccount;
 let accounts = [];
 
 //init button handlers
-$("#wallet-connect").on("click", connectWallet);
+$("#wallet-connect").on("click", onSignIn);
 $("#twitter-connect").on("click", initTwitterAuth);
 $("#discord-connect").on("click", connectDiscord);
 
 
 window.onload = function () {
-    console.log("testing 35")
-    initWalletAuth()
+    console.log("testing 37")
+    // initWalletAuth()
     var wallet = window.localStorage.getItem('wallet');
     var twitter = window.localStorage.getItem('twitter');
     var discord = window.localStorage.getItem('discord');
